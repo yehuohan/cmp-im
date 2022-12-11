@@ -28,12 +28,15 @@ local function load_tbls(files)
     end
 end
 
-local function match_tbls(key)
+local function match_tbls(params)
     local res = {}
     if not im_tbls then
         return res
     end
 
+    local ctx = params.context
+    local cur = ctx.cursor
+    local key = string.sub(ctx.cursor_before_line, params.offset)
     for _, tbl in ipairs(im_tbls) do
         local cnt = 0
         for _, kv in ipairs(tbl) do
@@ -45,9 +48,16 @@ local function match_tbls(key)
                     label = im_opts.format(tk, tv),
                     sortText = tk,
                     filterText = tk,
-                    insertText = tv,
+                    textEdit = {
+                        newText = tv,
+                        insert = {
+                            ['start'] = { line = cur.line, character = cur.character - (cur.col - params.offset) },
+                            ['end'] = { line = cur.line, character = cur.character },
+                        },
+                    }
                 }
             end
+
             if cnt >= im_opts.maxn then
                 break
             end
@@ -67,8 +77,7 @@ end
 
 function source:complete(params, callback)
     load_tbls(im_opts.tables)
-    local key = string.sub(params.context.cursor_before_line, params.offset)
-    local res = match_tbls(key)
+    local res = match_tbls(params)
     if #res > 0 then
         return callback(res)
     end
