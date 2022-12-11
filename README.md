@@ -2,6 +2,9 @@
 
 Input Method source.
 
+<div align="center">
+<img alt="cmp-im" src="im.gif"  width=75% height=75% />
+</div>
 
 ## Setup
 
