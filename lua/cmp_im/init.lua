@@ -1,5 +1,7 @@
+local cmp = require('cmp')
 local utils = require('cmp_im.utils')
 local source = { }
+---Default options
 local im_opts = {
     enable = false,
     tables = { },
@@ -8,6 +10,7 @@ local im_opts = {
     end,
     maxn = 8,
 }
+---All IM tables
 local im_tbls = nil
 
 
@@ -72,17 +75,30 @@ function source:complete(params, callback)
     return callback()
 end
 
+---Setup IM's options
 local function setup(opts)
     im_opts = vim.tbl_deep_extend('keep', opts, im_opts)
 end
 
+---Enable/Disable IM source
 local function toggle()
     im_opts.enable = not im_opts.enable
     return im_opts.enable
+end
+
+---Select first entry if it's from IM
+local function select(fallback)
+    local entries = cmp.get_entries()
+    if cmp.visible() and #entries > 0 and entries[1].source.name == 'IM' then
+        cmp.confirm({ select = true })
+    else
+        fallback()
+    end
 end
 
 return {
     source = source,
     setup = setup,
     toggle = toggle,
+    select = select,
 }
