@@ -39,7 +39,7 @@ end)
 
 ```lua
 cmp.setup{
-  mapping = { ['<Space>'] = cmp.mapping(cmp_im.select, { 'i' }) },
+  mapping = { ['<Space>'] = cmp.mapping(cmp_im.select(), { 'i' }) },
 }
 ```
 

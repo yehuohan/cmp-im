@@ -95,13 +95,21 @@ local function toggle()
     return im_opts.enable
 end
 
----Select first entry if it's from IM
-local function select(fallback)
-    local entries = cmp.get_entries()
-    if cmp.visible() and #entries > 0 and entries[1].source.name == 'IM' then
-        cmp.confirm({ select = true })
-    else
-        fallback()
+---Select the entry from IM
+local function select(index)
+    return function(fallback)
+        if cmp.visible() then
+            local entries = cmp.get_entries()
+            if index and index > 0 then
+                cmp.select_next_item()
+                cmp.select_next_item({count = index - 1})
+                return cmp.confirm()
+            end
+            if #entries > 0 and entries[1].source.name == 'IM' then
+                return cmp.confirm({ select = true })
+            end
+        end
+        return fallback()
     end
 end
 
