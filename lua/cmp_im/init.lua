@@ -71,6 +71,10 @@ function source:is_available()
     return im_opts.enable
 end
 
+function source:get_keyword_pattern()
+    return [[\l\+]]
+end
+
 function source:get_trigger_characters()
     return {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'}
 end
