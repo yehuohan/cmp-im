@@ -78,7 +78,7 @@ local function match_tbls(params)
                 until (cnt >= im_opts.maxn)
             end
         else
-            -- A brute force match that still provides a pretty accepted performance!(Yes, luajit)
+            -- A brute force match that still provides a pretty acceptable performance!(Yes, luajit)
             for _, kv in ipairs(tbl.lst) do
                 if string.match(kv[1], '^' .. key) then
                     cnt = cnt + 1

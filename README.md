@@ -48,7 +48,7 @@ cmp.setup{
 
 Table is a plain text file plain text, where each line is a Im-key with one or multiple IM-texts that splited with whitespace character (`<Space>` or `<Tab>`) like below.
 
-> cmp-im has a better performance with IM-key being ascending order
+> cmp-im has a better performance with IM-key being ascending order, which can be done with `:sort`.
 
 ```
 a 阿 啊 呵 腌 嗄 锕 吖 錒
@@ -56,7 +56,7 @@ a 阿 啊 呵 腌 嗄 锕 吖 錒
 
 Here is some table-repos for you:
 
-- [cmp-im-zh](https://kgithub.com/yehuohan/cmp-im-zh): Chinese input with wubi, pinyin
+- [cmp-im-zh](https://github.com/yehuohan/cmp-im-zh): Chinese input with wubi, pinyin
 - [ZSaberLv0/ZFVimIM#db-samples](https://github.com/ZSaberLv0/ZFVimIM#db-samples)
-- [fcitx-table-extra](https://kgithub.com/fcitx/fcitx-table-extra)
-- [fcitx-table-data](https://kgithub.com/fcitx/fcitx-table-data)
+- [fcitx-table-extra](https://github.com/fcitx/fcitx-table-extra)
+- [fcitx-table-data](https://github.com/fcitx/fcitx-table-data)
