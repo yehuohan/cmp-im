@@ -134,9 +134,18 @@ local function select(index)
         if cmp.visible() then
             local entries = cmp.get_entries()
             if index and index > 0 then
-                cmp.select_next_item()
-                cmp.select_next_item({count = index - 1})
-                return cmp.confirm()
+                local num = 0
+                for k, e in ipairs(entries) do
+                    if e.source.name == 'IM' then
+                        num = num + 1
+                        if num >= index then
+                            -- `count` works only after `select_next_item()` is called once at least
+                            cmp.select_next_item()
+                            cmp.select_next_item({count = k - 1})
+                            return cmp.confirm()
+                        end
+                    end
+                end
             end
             if #entries > 0 and entries[1].source.name == 'IM' then
                 return cmp.confirm({ select = true })
