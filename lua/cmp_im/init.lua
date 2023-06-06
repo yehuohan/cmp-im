@@ -131,7 +131,7 @@ end
 ---Select the entry from IM
 local function select(index)
     return function(fallback)
-        if cmp.visible() then
+        if im_opts.enable and cmp.visible() then
             local entries = cmp.get_entries()
             if index and index > 0 then
                 local num = 0

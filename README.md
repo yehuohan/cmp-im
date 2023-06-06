@@ -46,7 +46,7 @@ cmp.setup{
 
 ## Tables
 
-Table is a plain text file plain text, where each line is a Im-key with one or multiple IM-texts that splited with whitespace character (`<Space>` or `<Tab>`) like below.
+Table is a plain text file, where each line is a Im-key with one or multiple IM-texts that splited with whitespace character (`<Space>` or `<Tab>`) like below.
 
 > cmp-im has a better performance with IM-key being ascending order, which can be done with `:sort`.
 
