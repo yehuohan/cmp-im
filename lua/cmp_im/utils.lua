@@ -1,6 +1,5 @@
 local M = {}
-local T = { }
-
+local T = {}
 
 function T.valid(self)
     return #self.lst > 0
@@ -48,7 +47,7 @@ local function split(line, sep)
     end
     local list = {}
     for ele in string.gmatch(line, sep) do
-        list[#list+1] = ele
+        list[#list + 1] = ele
     end
     return list
 end
@@ -56,8 +55,8 @@ end
 ---Load IM table
 function M.load_tbl(filename)
     local fp = io.open(filename, 'r')
-    local lst = { } -- IM key-values list with key=lst[1] and values = lst[2:]
-    local inv = { } -- Inverted lst
+    local lst = {} -- IM key-values list with key=lst[1] and values = lst[2:]
+    local inv = {} -- Inverted lst
     local last = nil
     local order = true
 
@@ -66,7 +65,7 @@ function M.load_tbl(filename)
         while line do
             local parts = split(line)
             if #parts >= 2 then
-                lst[#lst+1] = parts
+                lst[#lst + 1] = parts
 
                 local key = parts[1]
                 if not inv[key] then

@@ -1,11 +1,11 @@
 local cmp = require('cmp')
 local utils = require('cmp_im.utils')
-local source = { }
+local source = {}
 ---Default options
 local im_opts = {
     enable = false,
     keyword = [[\l\+]],
-    tables = { },
+    tables = {},
     format = function(key, text)
         return vim.fn.printf('%-15S %s', text, key)
     end,
@@ -13,7 +13,6 @@ local im_opts = {
 }
 ---All IM tables
 local im_tbls = nil
-
 
 local function load_tbls(files)
     if not im_opts.enable then
@@ -24,9 +23,12 @@ local function load_tbls(files)
         for _, fn in ipairs(files) do
             local tbl = utils.load_tbl(fn)
             if tbl:valid() then
-                im_tbls[#im_tbls+1] = tbl
+                im_tbls[#im_tbls + 1] = tbl
             else
-                vim.notify(string.format("Failed to load %s as cmp-im's table", fn), vim.log.levels.WARN)
+                vim.notify(
+                    string.format("Failed to load %s as cmp-im's table", fn),
+                    vim.log.levels.WARN
+                )
             end
         end
     end
@@ -42,10 +44,13 @@ local function cmp_item(key, val, params)
         textEdit = {
             newText = val,
             insert = {
-                ['start'] = { line = cur.line, character = cur.character - (cur.col - params.offset) },
+                ['start'] = {
+                    line = cur.line,
+                    character = cur.character - (cur.col - params.offset),
+                },
                 ['end'] = { line = cur.line, character = cur.character },
             },
-        }
+        },
     }
 end
 
@@ -69,21 +74,21 @@ local function match_tbls(params)
                     end
                     for i, v in ipairs(kvs) do
                         if i >= 2 then
-                            res[#res+1] = cmp_item(kvs[1], v, params)
+                            res[#res + 1] = cmp_item(kvs[1], v, params)
                             cnt = cnt + 1
                             if cnt >= im_opts.maxn then
                                 break
                             end
                         end
                     end
-                until (cnt >= im_opts.maxn)
+                until cnt >= im_opts.maxn
             end
         else
             -- A brute force match that still provides a pretty acceptable performance!(Yes, luajit)
             for _, kv in ipairs(tbl.lst) do
                 if string.match(kv[1], '^' .. key) then
                     cnt = cnt + 1
-                    res[#res+1] = cmp_item(kv[1], kv[2], params)
+                    res[#res + 1] = cmp_item(kv[1], kv[2], params)
                 end
                 if cnt >= im_opts.maxn then
                     break
@@ -104,7 +109,34 @@ function source:get_keyword_pattern()
 end
 
 function source:get_trigger_characters()
-    return {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'}
+    return {
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+        'n',
+        'o',
+        'p',
+        'q',
+        'r',
+        's',
+        't',
+        'u',
+        'v',
+        'w',
+        'x',
+        'y',
+        'z',
+    }
 end
 
 function source:complete(params, callback)
@@ -142,7 +174,7 @@ local function select(index)
                         if num >= index then
                             -- `count` works only after `select_next_item()` is called once at least
                             cmp.select_next_item()
-                            cmp.select_next_item({count = k - 1})
+                            cmp.select_next_item({ count = k - 1 })
                             return cmp.confirm()
                         end
                     end
