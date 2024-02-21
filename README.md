@@ -15,6 +15,8 @@ local cmp_im = require('cmp_im')
 cmp_im.setup{
   -- Enable/Disable IM
   enable = false,
+  -- IM keyword pattern
+  keyword = [[\l\+]],
   -- IM tables path array
   tables = { },
   -- Function to format IM-key and IM-tex for completion display

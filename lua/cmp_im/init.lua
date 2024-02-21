@@ -4,6 +4,7 @@ local source = { }
 ---Default options
 local im_opts = {
     enable = false,
+    keyword = [[\l\+]],
     tables = { },
     format = function(key, text)
         return vim.fn.printf('%-15S %s', text, key)
@@ -99,7 +100,7 @@ function source:is_available()
 end
 
 function source:get_keyword_pattern()
-    return [[\l\+]]
+    return im_opts.keyword
 end
 
 function source:get_trigger_characters()
