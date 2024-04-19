@@ -51,6 +51,9 @@ local function cmp_item(key, val, params)
                 ['end'] = { line = cur.line, character = cur.character },
             },
         },
+        cmp = {
+            kind_text = "IM",
+        }
     }
 end
 
