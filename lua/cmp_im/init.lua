@@ -43,7 +43,7 @@ local function cmp_item(key, val, params)
         filterText = key,
         textEdit = {
             newText = val,
-            insert = {
+            range = {
                 ['start'] = {
                     line = cur.line,
                     character = cur.character - (cur.col - params.offset),
