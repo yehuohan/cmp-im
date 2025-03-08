@@ -1,7 +1,6 @@
-local cmp = require('cmp')
 local utils = require('cmp_im.utils')
-local source = {}
----Default options
+
+--- Default options
 local im_opts = {
     enable = false,
     keyword = [[\l\+]],
@@ -10,10 +9,12 @@ local im_opts = {
     format = function(key, text)
         return vim.fn.printf('%-15S %s', text, key)
     end,
-    maxn = 8,
+    maxn = 10,
 }
----All IM tables
+--- All IM tables
 local im_tbls = nil
+
+local source = {}
 
 function source:is_available()
     return im_opts.enable
@@ -53,6 +54,8 @@ local function load_tbls(files)
     end
 end
 
+--- Match completions from IM tables
+--- @param params cmp.SourceCompletionApiParams
 local function match_tbls(params)
     local res = {}
     if not im_tbls then
@@ -100,6 +103,9 @@ local function match_tbls(params)
     return res
 end
 
+--- Invoke completion
+--- @param params cmp.SourceCompletionApiParams
+--- @param callback fun(response: lsp.CompletionResponse|nil)
 function source:complete(params, callback)
     load_tbls(im_opts.tables)
     -- local t0 = vim.fn.reltime()
@@ -124,6 +130,7 @@ end
 
 --- Select the entry from IM
 local function select(index)
+    local cmp = require('cmp')
     return function(fallback)
         if im_opts.enable and cmp.visible() then
             local entries = cmp.get_entries()
