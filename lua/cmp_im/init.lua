@@ -6,6 +6,7 @@ local im_opts = {
     enable = false,
     keyword = [[\l\+]],
     tables = {},
+    symbols = {},
     format = function(key, text)
         return vim.fn.printf('%-15S %s', text, key)
     end,
@@ -24,8 +25,12 @@ end
 
 function source:get_trigger_characters()
     -- stylua: ignore start
-    return { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' }
+    local chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'}
     -- stylua: ignore end
+    for k, _ in pairs(im_opts.symbols) do
+        chars[#chars + 1] = k
+    end
+    return chars
 end
 
 local function load_tbls(files)
@@ -54,9 +59,10 @@ local function match_tbls(params)
         return res
     end
 
-    local add_item = function(txt, key, val)
+    local add_item = function(txt, key, val, len)
         local ctx = params.context
         local cur = ctx.cursor
+        local ofs = len or (cur.col - params.offset)
         res[#res + 1] = {
             label = im_opts.format(key, val),
             sortText = key,
@@ -66,7 +72,7 @@ local function match_tbls(params)
                 range = {
                     ['start'] = {
                         line = cur.line,
-                        character = cur.character - (cur.col - params.offset),
+                        character = cur.character - ofs,
                     },
                     ['end'] = { line = cur.line, character = cur.character },
                 },
@@ -74,9 +80,22 @@ local function match_tbls(params)
         }
     end
 
-    local str = string.sub(params.context.cursor_before_line, params.offset)
-    for _, tbl in ipairs(im_tbls) do
-        tbl:match(add_item, str, im_opts.maxn)
+    local pre = params.context.cursor_before_line
+    local sym = vim.fn.strcharpart(pre, vim.fn.strcharlen(pre) - 1)
+    local val = im_opts.symbols[sym]
+    if val then
+        if type(val) == 'table' then
+            for _, v in ipairs(val) do
+                add_item(sym, sym, v, 1)
+            end
+        else
+            add_item(sym, sym, val, 1)
+        end
+    else
+        local str = string.sub(pre, params.offset)
+        for _, tbl in ipairs(im_tbls) do
+            tbl:match(add_item, str, im_opts.maxn)
+        end
     end
     return res
 end

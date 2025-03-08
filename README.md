@@ -19,6 +19,8 @@ cmp_im.setup{
   keyword = [[\l\+]],
   -- IM tables path array
   tables = { },
+  -- IM symbols table<char, char|char[]>
+  symbols = { },
   -- Function to format IM-key and IM-tex for completion display
   format = function(key, text) return vim.fn.printf('%-15S %s', text, key) end,
   -- Max number entries to show for completion of each table
@@ -62,3 +64,15 @@ Here is some table-repos for you:
 - [ZSaberLv0/ZFVimIM#db-samples](https://github.com/ZSaberLv0/ZFVimIM#db-samples)
 - [fcitx-table-extra](https://github.com/fcitx/fcitx-table-extra)
 - [fcitx-table-data](https://github.com/fcitx/fcitx-table-data)
+
+
+## Symbols
+
+Symbols is a table for punctuation completion like below.
+
+```lua
+{
+  [","] = "，",
+  ["'"] = { "‘", "’" }
+}
+```
