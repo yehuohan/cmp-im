@@ -3,7 +3,7 @@
 Input Method source.
 
 <div align="center">
-<img alt="cmp-im" src="im.gif"  width=50% height=50% />
+<img alt="cmp-im" src="im.gif" style="width:75%; height:auto;" />
 </div>
 
 ## Setup
